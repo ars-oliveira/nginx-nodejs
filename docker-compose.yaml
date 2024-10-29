@@ -1,0 +1,44 @@
+services:
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: nginx
+    ports:
+      - '8080:80'
+    depends_on:
+      - app
+      - db
+    networks:
+      - nginx-nodejs-network
+
+  app:
+    build:
+      context: ./nodejs
+      dockerfile: Dockerfile
+    container_name: app
+    volumes:
+      - ./nodejs:/usr/src/app
+    entrypoint: dockerize -wait tcp://db:3306 -timeout 30s sh -c "npm install && npm run start"
+    tty: true
+    depends_on:
+      - db
+    networks:
+      - nginx-nodejs-network
+
+  db:
+    image: mysql:latest
+    container_name: db
+    restart: always
+    tty: true
+    volumes:
+      - ./nodejs/.docker/mysql:/docker-entrypoint-initdb.d
+    environment:
+      - MYSQL_DATABASE=nodedb
+      - MYSQL_ROOT_PASSWORD=password
+    networks:
+      - nginx-nodejs-network
+
+networks:
+  nginx-nodejs-network:
+    driver: bridge

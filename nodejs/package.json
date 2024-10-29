@@ -1,0 +1,17 @@
+{
+    "name": "node",
+    "version": "1.0.0",
+    "description": "A simple application using nodejs, nginx and docker",
+    "main": "index.js",
+    "scripts": {
+      "start": "node index.js",
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Angelo Severgnini",
+    "license": "MIT",
+    "dependencies": {
+      "axios": "^1.7.7",
+      "express": "^4.21.1",
+      "mysql2": "^3.11.3"
+    }
+  }
