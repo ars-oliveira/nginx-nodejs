@@ -32,7 +32,7 @@ services:
     restart: always
     tty: true
     volumes:
-      - ./nodejs/.docker/mysql:/docker-entrypoint-initdb.d
+      - ./nodejs/.docker/mysql:/var/lib/mysql
     environment:
       - MYSQL_DATABASE=nodedb
       - MYSQL_ROOT_PASSWORD=password
